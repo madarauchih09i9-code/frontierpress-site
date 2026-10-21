@@ -49,6 +49,8 @@
   --orange-soft:#FFF0E9;
   --mint:#14B88F;
   --mint-soft:#E2F7F0;
+  --violet:#7B5CFF;
+  --gold:#E3A008;
   --font-display:"Schibsted Grotesk","Helvetica Neue",Helvetica,Arial,sans-serif;
   --font-body:"Schibsted Grotesk","Helvetica Neue",Helvetica,Arial,sans-serif;
   --font-brand:"Schibsted Grotesk","Helvetica Neue",Helvetica,Arial,sans-serif;
@@ -241,18 +243,32 @@ html[lang="ar"] .for-label{font-size:13.5px;text-transform:none}
 .sectors{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
 .sectors li{padding:7px 14px;border:1px solid var(--line);border-radius:999px;background:var(--surface);font-size:14.5px;font-weight:600}
 
-/* Newsroom clock wall */
-.board{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-@media (min-width:820px){.board{grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}}
-.tile{position:relative;isolation:isolate;display:flex;flex-direction:column;gap:8px;min-width:0;min-height:196px;padding:20px 18px 18px;overflow:hidden;border:1px solid var(--line);border-radius:22px;background:var(--surface);transition:transform .3s cubic-bezier(.2,.7,.2,1),box-shadow .3s,border-color .3s}
-@media (min-width:820px){.tile{min-height:224px;padding:24px 22px 20px}}
-.tile:hover{transform:translateY(-6px);border-color:var(--blue-edge);box-shadow:var(--shadow-lg)}
-.tile-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
-.code{font-family:var(--font-brand);font-size:clamp(46px,5.4vw,74px);font-weight:900;line-height:.86;letter-spacing:-0.05em;color:var(--ink);transition:color .25s}
-html[lang="ar"] .code{letter-spacing:-0.05em}
+/* Newsroom clock wall: 30 countries, filterable by region (30 fills 2, 3, 5 and 6 columns evenly) */
+.rfilter{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px}
+.rchip{appearance:none;display:inline-flex;align-items:center;gap:8px;margin:0;padding-block:7px;padding-inline:14px 8px;border:1px solid var(--line);border-radius:999px;background:var(--surface);color:var(--ink);font-family:var(--font-body);font-size:14px;font-weight:600;line-height:1.25;text-align:start;cursor:pointer;transition:background-color .2s,border-color .2s,color .2s}
+.rchip b{display:grid;place-items:center;flex:none;min-width:24px;height:22px;padding-inline:7px;border-radius:999px;background:var(--blue-soft);color:var(--blue);font-family:var(--font-mono);font-size:12px;font-weight:600;line-height:1}
+.rchip:hover{border-color:var(--ink)}
+.rchip[aria-pressed="true"]{border-color:var(--ink);background:var(--ink);color:var(--surface)}
+.rchip[aria-pressed="true"] b{background:rgba(255,255,255,.16);color:var(--surface)}
+.rdot{width:8px;height:8px;flex:none;border-radius:50%;background:var(--rc,var(--blue))}
+.rchip[data-r="eu"],.tile[data-r="eu"]{--rc:var(--blue)}
+.rchip[data-r="af"],.tile[data-r="af"]{--rc:var(--orange)}
+.rchip[data-r="me"],.tile[data-r="me"]{--rc:var(--mint)}
+.rchip[data-r="as"],.tile[data-r="as"]{--rc:var(--violet)}
+.rchip[data-r="am"],.tile[data-r="am"]{--rc:var(--gold)}
+.board{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+@media (min-width:360px){.board{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (min-width:720px){.board{grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}}
+@media (min-width:1040px){.board{grid-template-columns:repeat(6,minmax(0,1fr));gap:14px}}
+.tile{position:relative;isolation:isolate;display:flex;flex-direction:column;gap:6px;min-width:0;min-height:124px;padding:12px 11px 11px;overflow:hidden;border:1px solid var(--line);border-radius:16px;background:var(--surface);transition:transform .3s cubic-bezier(.2,.7,.2,1),box-shadow .3s,border-color .3s}
+@media (min-width:720px){.tile{min-height:146px;padding:15px 15px 13px;border-radius:18px}}
+.tile:hover{transform:translateY(-4px);border-color:var(--blue-edge);box-shadow:var(--shadow-lg)}
+.tile-top{display:flex;align-items:flex-start;justify-content:space-between;gap:6px}
+.code{font-family:var(--font-brand);font-size:clamp(26px,3.1vw,40px);font-weight:900;line-height:.86;letter-spacing:-0.04em;color:var(--ink);transition:color .25s}
+html[lang="ar"] .code{letter-spacing:-0.04em}
 .tile:hover .code{color:var(--blue)}
-.dial{display:block;flex:none;width:46px;height:46px}
-@media (min-width:820px){.dial{width:56px;height:56px}}
+.dial{display:block;flex:none;width:30px;height:30px}
+@media (min-width:720px){.dial{width:38px;height:38px}}
 .dial svg{display:block;width:100%;height:100%;overflow:visible}
 .d-face{fill:var(--surface);stroke:var(--line);stroke-width:1.5;transition:stroke .25s}
 .tile:hover .d-face{stroke:var(--blue-edge)}
@@ -264,23 +280,26 @@ html[lang="ar"] .code{letter-spacing:-0.05em}
 .d-s{stroke:var(--orange);stroke-width:1.3;stroke-linecap:round}
 .d-pin{fill:var(--orange)}
 .d-sw{transform-box:view-box;transform-origin:24px 24px;animation:spin 60s steps(60,end) infinite}
-.country{margin-top:auto;font-size:17px;font-weight:700;line-height:1.25;overflow-wrap:anywhere}
-.clock{display:flex;flex-wrap:wrap;align-items:center;gap:2px 8px;font-family:var(--font-label);font-size:12.5px;color:var(--muted)}
-html[lang="ar"] .clock{font-size:13.5px}
-.city{letter-spacing:.1em;text-transform:uppercase}
+.country{margin-top:auto;font-size:14px;font-weight:700;line-height:1.25;overflow-wrap:break-word;-webkit-hyphens:auto;hyphens:auto}
+@media (min-width:720px){.country{font-size:15px}}
+.clock{display:flex;flex-wrap:wrap;align-items:center;gap:1px 6px;font-family:var(--font-label);font-size:10.5px;color:var(--muted)}
+@media (min-width:720px){.clock{font-size:11.5px}}
+html[lang="ar"] .clock{font-size:12.5px}
+.city{min-width:0;overflow-wrap:anywhere;letter-spacing:.06em;text-transform:uppercase}
 html[lang="ar"] .city{text-transform:none}
-.live-dot{width:7px;height:7px;flex:none;border-radius:50%;background:var(--mint);animation:blink 2s ease-in-out infinite}
+.live-dot{width:7px;height:7px;flex:none;border-radius:50%;background:var(--rc,var(--mint));animation:blink 2s ease-in-out infinite}
 @keyframes blink{50%{opacity:.25}}
 .time{font-family:var(--font-mono);font-weight:600;color:var(--ink)}
-.tile-more{border-color:transparent;background:linear-gradient(150deg,var(--orange) 0%,var(--orange-2) 100%)}
-.tile-more.spot::after{background:radial-gradient(360px circle at var(--mx,50%) var(--my,0%),rgba(255,255,255,.32),transparent 62%)}
-.tile-more .code,.tile-more:hover .code,.tile-more .country,.tile-more .clock{color:var(--ink)}
+.more-band{display:flex;flex-wrap:wrap;align-items:center;gap:14px 20px;margin-top:22px;padding:20px 22px;border-radius:22px;background:linear-gradient(120deg,var(--orange) 0%,var(--orange-2) 100%);color:var(--ink)}
+.more-band .dial{width:46px;height:46px}
+.more-copy{flex:1 1 260px;min-width:0}
+.more-title{font-family:var(--font-display);font-size:21px;font-weight:800;line-height:1.2;letter-spacing:-0.02em}
+.more-text{margin-top:4px;max-width:62ch;font-size:15.5px;line-height:1.5;color:rgba(11,16,32,.8)}
 .dial-globe svg{fill:none;stroke:var(--ink);stroke-width:1.6}
 .dial-globe .g-face{fill:rgba(255,255,255,.4)}
 .mer{transform-box:fill-box;transform-origin:center;animation:meridian 4s linear infinite}
 .mer.m2{animation-delay:-2s}
 @keyframes meridian{0%,100%{transform:scaleX(1)}50%{transform:scaleX(.06)}}
-.board-note{margin-top:24px;max-width:64ch;color:var(--muted)}
 
 /* Cards with small animated scenes */
 .cards{display:grid;gap:16px}
@@ -659,7 +678,7 @@ html[dir="rtl"] .float-wa{right:auto;left:calc(18px + env(safe-area-inset-left,0
         </div>
         <p class="hero-note intro" style="--d:.38s" data-i18n="heroNote">Tell us which countries you target, and we reply with a shortlist of media, their prices and their timelines.</p>
         <dl class="facts intro" style="--d:.46s">
-          <div><dt><span class="count" data-to="7">7</span></dt><dd data-i18n="factMarkets">strong markets</dd></div>
+          <div><dt><span class="count" data-to="30">30</span>+</dt><dd data-i18n="factMarkets">countries</dd></div>
           <div><dt><span class="count" data-to="4">4</span></dt><dd data-i18n="factFormats">publishing formats</dd></div>
           <div><dt><span class="count" data-to="1">1</span></dt><dd data-i18n="factContact">contact for everything</dd></div>
         </dl>
@@ -684,17 +703,13 @@ html[dir="rtl"] .float-wa{right:auto;left:calc(18px + env(safe-area-inset-left,0
         <div><p class="eyebrow" data-i18n="coverageKicker">Coverage</p><h2 id="coverage-title" data-i18n="coverageTitle">Published in any country</h2></div>
         <p class="section-lead" data-i18n="covLead">We place articles worldwide. These are our strongest markets, shown with their local time.</p>
       </div>
-      <ul class="board" id="board">
-        <li class="tile spot reveal" style="--d:0s" data-code="GB" data-tz="Europe/London" data-city="0"><div class="tile-top"><span class="code" aria-hidden="true" lang="en" dir="ltr">GB</span><span class="dial" aria-hidden="true"></span></div><span class="country" data-fallback="United Kingdom">United Kingdom</span><span class="clock"><i class="live-dot" aria-hidden="true"></i><span class="city">London</span><span class="time" dir="ltr">--:--</span></span></li>
-        <li class="tile spot reveal" style="--d:.06s" data-code="FR" data-tz="Europe/Paris" data-city="1"><div class="tile-top"><span class="code" aria-hidden="true" lang="en" dir="ltr">FR</span><span class="dial" aria-hidden="true"></span></div><span class="country" data-fallback="France">France</span><span class="clock"><i class="live-dot" aria-hidden="true"></i><span class="city">Paris</span><span class="time" dir="ltr">--:--</span></span></li>
-        <li class="tile spot reveal" style="--d:.12s" data-code="ES" data-tz="Europe/Madrid" data-city="2"><div class="tile-top"><span class="code" aria-hidden="true" lang="en" dir="ltr">ES</span><span class="dial" aria-hidden="true"></span></div><span class="country" data-fallback="Spain">Spain</span><span class="clock"><i class="live-dot" aria-hidden="true"></i><span class="city">Madrid</span><span class="time" dir="ltr">--:--</span></span></li>
-        <li class="tile spot reveal" style="--d:.18s" data-code="IT" data-tz="Europe/Rome" data-city="3"><div class="tile-top"><span class="code" aria-hidden="true" lang="en" dir="ltr">IT</span><span class="dial" aria-hidden="true"></span></div><span class="country" data-fallback="Italy">Italy</span><span class="clock"><i class="live-dot" aria-hidden="true"></i><span class="city">Rome</span><span class="time" dir="ltr">--:--</span></span></li>
-        <li class="tile spot reveal" style="--d:.24s" data-code="DE" data-tz="Europe/Berlin" data-city="4"><div class="tile-top"><span class="code" aria-hidden="true" lang="en" dir="ltr">DE</span><span class="dial" aria-hidden="true"></span></div><span class="country" data-fallback="Germany">Germany</span><span class="clock"><i class="live-dot" aria-hidden="true"></i><span class="city">Berlin</span><span class="time" dir="ltr">--:--</span></span></li>
-        <li class="tile spot reveal" style="--d:.3s" data-code="DZ" data-tz="Africa/Algiers" data-city="5"><div class="tile-top"><span class="code" aria-hidden="true" lang="en" dir="ltr">DZ</span><span class="dial" aria-hidden="true"></span></div><span class="country" data-fallback="Algeria">Algeria</span><span class="clock"><i class="live-dot" aria-hidden="true"></i><span class="city">Algiers</span><span class="time" dir="ltr">--:--</span></span></li>
-        <li class="tile spot reveal" style="--d:.36s" data-code="MN" data-tz="Asia/Ulaanbaatar" data-city="6"><div class="tile-top"><span class="code" aria-hidden="true" lang="en" dir="ltr">MN</span><span class="dial" aria-hidden="true"></span></div><span class="country" data-fallback="Mongolia">Mongolia</span><span class="clock"><i class="live-dot" aria-hidden="true"></i><span class="city">Ulaanbaatar</span><span class="time" dir="ltr">--:--</span></span></li>
-        <li class="tile tile-more spot reveal" style="--d:.42s"><div class="tile-top"><span class="code" aria-hidden="true">+</span><span class="dial dial-globe" aria-hidden="true"><svg viewBox="0 0 48 48"><circle class="g-face" cx="24" cy="24" r="21"/><ellipse class="mer" cx="24" cy="24" rx="9" ry="21"/><ellipse class="mer m2" cx="24" cy="24" rx="17" ry="21"/><path d="M3 24h42M7.5 13.5h33M7.5 34.5h33"/></svg></span></div><span class="country" data-i18n="moreTitle">Africa and the rest of the world</span><span class="clock" data-i18n="moreNote">On request</span></li>
-      </ul>
-      <p class="board-note" data-i18n="covNote">Another country in mind? Send it to us, and we confirm the available media and their prices before you commit.</p>
+      <div class="rfilter" id="rfilter" role="group" aria-label="Filter by region" data-i18n-aria="rgLabel"></div>
+      <ul class="board" id="board"></ul>
+      <div class="more-band reveal">
+        <span class="dial dial-globe" aria-hidden="true"><svg viewBox="0 0 48 48"><circle class="g-face" cx="24" cy="24" r="21"/><ellipse class="mer" cx="24" cy="24" rx="9" ry="21"/><ellipse class="mer m2" cx="24" cy="24" rx="17" ry="21"/><path d="M3 24h42M7.5 13.5h33M7.5 34.5h33"/></svg></span>
+        <div class="more-copy"><p class="more-title" data-i18n="moreTitle">And many more on request</p><p class="more-text" data-i18n="covNote">Another country in mind? Send it to us, and we confirm the available media and their prices before you commit.</p></div>
+        <a class="btn btn-white btn-small js-wa" href="https://wa.me/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-wa"/></svg><span data-i18n="moreCta">Ask about a country</span></a>
+      </div>
     </div>
   </section>
 
@@ -916,9 +931,44 @@ html[dir="rtl"] .float-wa{right:auto;left:calc(18px + env(safe-area-inset-left,0
 
   var LANGS = ["en", "fr", "ar"];
   var LOCALES = { en: "en-GB", fr: "fr-FR", ar: "ar-u-nu-latn" };
-  /* The strong markets, in the same order as the city lists below */
-  var TZS = ["Europe/London", "Europe/Paris", "Europe/Madrid", "Europe/Rome", "Europe/Berlin", "Africa/Algiers", "Asia/Ulaanbaatar"];
-  var CITY_LL = [[51.5, -0.13], [48.86, 2.35], [40.42, -3.7], [41.9, 12.5], [52.52, 13.4], [36.75, 3.06], [47.9, 106.9]];
+  /* Countries on the coverage board: ISO code, region, time zone, main media city (lat, lon) and its name in each language */
+  var COUNTRIES = [
+    { c: "GB", r: "eu", tz: "Europe/London", ll: [51.5, -0.13], fb: "United Kingdom", en: "London", fr: "Londres", ar: "لندن" },
+    { c: "FR", r: "eu", tz: "Europe/Paris", ll: [48.86, 2.35], fb: "France", en: "Paris", fr: "Paris", ar: "باريس" },
+    { c: "ES", r: "eu", tz: "Europe/Madrid", ll: [40.42, -3.7], fb: "Spain", en: "Madrid", fr: "Madrid", ar: "مدريد" },
+    { c: "IT", r: "eu", tz: "Europe/Rome", ll: [41.9, 12.5], fb: "Italy", en: "Rome", fr: "Rome", ar: "روما" },
+    { c: "DE", r: "eu", tz: "Europe/Berlin", ll: [52.52, 13.4], fb: "Germany", en: "Berlin", fr: "Berlin", ar: "برلين" },
+    { c: "PL", r: "eu", tz: "Europe/Warsaw", ll: [52.23, 21.01], fb: "Poland", en: "Warsaw", fr: "Varsovie", ar: "وارسو" },
+    { c: "DZ", r: "af", tz: "Africa/Algiers", ll: [36.75, 3.06], fb: "Algeria", en: "Algiers", fr: "Alger", ar: "الجزائر" },
+    { c: "MA", r: "af", tz: "Africa/Casablanca", ll: [33.57, -7.59], fb: "Morocco", en: "Casablanca", fr: "Casablanca", ar: "الدار البيضاء" },
+    { c: "TN", r: "af", tz: "Africa/Tunis", ll: [36.81, 10.18], fb: "Tunisia", en: "Tunis", fr: "Tunis", ar: "تونس" },
+    { c: "EG", r: "af", tz: "Africa/Cairo", ll: [30.04, 31.24], fb: "Egypt", en: "Cairo", fr: "Le Caire", frIn: "au Caire", ar: "القاهرة" },
+    { c: "NG", r: "af", tz: "Africa/Lagos", ll: [6.52, 3.38], fb: "Nigeria", en: "Lagos", fr: "Lagos", ar: "لاغوس" },
+    { c: "BJ", r: "af", tz: "Africa/Porto-Novo", ll: [6.37, 2.39], fb: "Benin", en: "Cotonou", fr: "Cotonou", ar: "كوتونو" },
+    { c: "NE", r: "af", tz: "Africa/Niamey", ll: [13.51, 2.11], fb: "Niger", en: "Niamey", fr: "Niamey", ar: "نيامي" },
+    { c: "ML", r: "af", tz: "Africa/Bamako", ll: [12.64, -8.0], fb: "Mali", en: "Bamako", fr: "Bamako", ar: "باماكو" },
+    { c: "CG", r: "af", tz: "Africa/Brazzaville", ll: [-4.27, 15.24], fb: "Congo - Brazzaville", en: "Brazzaville", fr: "Brazzaville", ar: "برازافيل" },
+    { c: "CD", r: "af", tz: "Africa/Kinshasa", ll: [-4.33, 15.32], fb: "Congo - Kinshasa", en: "Kinshasa", fr: "Kinshasa", ar: "كينشاسا" },
+    { c: "MZ", r: "af", tz: "Africa/Maputo", ll: [-25.97, 32.57], fb: "Mozambique", en: "Maputo", fr: "Maputo", ar: "مابوتو" },
+    { c: "MG", r: "af", tz: "Indian/Antananarivo", ll: [-18.88, 47.51], fb: "Madagascar", en: "Antananarivo", fr: "Antananarivo", ar: "أنتاناناريفو" },
+    { c: "ZA", r: "af", tz: "Africa/Johannesburg", ll: [-26.2, 28.05], fb: "South Africa", en: "Johannesburg", fr: "Johannesburg", ar: "جوهانسبرغ" },
+    { c: "SY", r: "me", tz: "Asia/Damascus", ll: [33.51, 36.29], fb: "Syria", en: "Damascus", fr: "Damas", ar: "دمشق" },
+    { c: "AM", r: "me", tz: "Asia/Yerevan", ll: [40.18, 44.51], fb: "Armenia", en: "Yerevan", fr: "Erevan", ar: "يريفان" },
+    { c: "AZ", r: "me", tz: "Asia/Baku", ll: [40.41, 49.87], fb: "Azerbaijan", en: "Baku", fr: "Bakou", ar: "باكو" },
+    { c: "KZ", r: "me", tz: "Asia/Almaty", ll: [43.24, 76.89], fb: "Kazakhstan", en: "Almaty", fr: "Almaty", ar: "ألماتي" },
+    { c: "UZ", r: "me", tz: "Asia/Tashkent", ll: [41.3, 69.24], fb: "Uzbekistan", en: "Tashkent", fr: "Tachkent", ar: "طشقند" },
+    { c: "TJ", r: "me", tz: "Asia/Dushanbe", ll: [38.56, 68.79], fb: "Tajikistan", en: "Dushanbe", fr: "Douchanbé", ar: "دوشانبي" },
+    { c: "MN", r: "as", tz: "Asia/Ulaanbaatar", ll: [47.9, 106.9], fb: "Mongolia", en: "Ulaanbaatar", fr: "Oulan-Bator", ar: "أولان باتور" },
+    { c: "TH", r: "as", tz: "Asia/Bangkok", ll: [13.76, 100.5], fb: "Thailand", en: "Bangkok", fr: "Bangkok", ar: "بانكوك" },
+    { c: "US", r: "am", tz: "America/New_York", ll: [40.71, -74.0], fb: "United States", en: "New York", fr: "New York", ar: "نيويورك" },
+    { c: "BR", r: "am", tz: "America/Sao_Paulo", ll: [-23.55, -46.63], fb: "Brazil", en: "São Paulo", fr: "São Paulo", ar: "ساو باولو" },
+    { c: "AR", r: "am", tz: "America/Argentina/Buenos_Aires", ll: [-34.6, -58.38], fb: "Argentina", en: "Buenos Aires", fr: "Buenos Aires", ar: "بوينس آيرس" }
+  ];
+  var REGIONS = [["eu", "rgEU"], ["af", "rgAF"], ["me", "rgME"], ["as", "rgAS"], ["am", "rgAM"]];
+  /* Cities the headline cycles through, one per region in turn; the globe turns to each */
+  var ROT = ["GB", "NG", "US", "KZ", "EG", "BR", "TH", "FR", "PL", "MA", "AZ", "DZ", "MN"];
+  function codeIdx(code) { for (var i = 0; i < COUNTRIES.length; i++) { if (COUNTRIES[i].c === code) return i; } return 0; }
+  function cityName(i) { var k = COUNTRIES[i]; return k ? (k[current] || k.en) : ""; }
   /* Land mask on a 2-degree grid: 86 rows from 85N, 180 columns from 179W, one bit per cell */
   var LAND = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAf4AP/AAAAAAAAAAAAAAAAAAAAAAAAX/z///+AAAAAAAABAAAAAAAAAAAAAYd8P///wAA+AAAAAA8AAAAAAAAAAAwAnw////4AAIAAAAAAGAAAAAAAAAAADivwAf//wAAAAADAAf/wAHYAAAAAADoi3sAP//gAAAAAMAD///sAAAAgBgACfwz/AD/+gAAAwAEHf///////+AP//////////////4A//EgAAAAAAAgH///////////////gAFAAgAAAAAAAAz///////////////BhQAAAAAAAAAAAAP/////4A0B4AAAD5/////////////Af3////gHgA4AAAH5///////////LwAHgH///gHkAAAAAH4/////////+CIAABAB///4D+AAAAGCx/////////4A8AAIAAf///n/gAAAOCD/////////wA4AAAAAf///n/wAAAbP///////////AgAAAAAP/////wAAADf//////////9AAAAAAAF////0YAAAB///////////9AAAAAAAD////8EAAAB///////////5AAAAAAAD////2AAAAB/f5fP//////wAAAAAAAD////gAAAAfxnwPP//////jAAAAAAAD////AAAAAPCb3/n/////+CAAAAAAAD///8AAAAAfALf/n////+ECAAAAAAAB///8AAAAAGHQP/n/////mMAAAAAAAA///8AAAAAH+Ai///////E8AAAAAAAAf//wAAAAAP/AA///////BgAAAAAAAAP//gAAAAAf/73///////gAAAAAAAAAD/AQAAAAAf////f/////gAAAAAAAAAF+AQAAAAB///+/n/////AAAAAAAAAAC+AAAAAAB///+f0H////AAAAAAAAAAAeAwAAAAD////f/B///8gAAAAAAAAAAeGEAAAAH////v+B/z/AAAAAAAAAAAAPMAgAAAD////n+A/B+gAAAAAAAAAAAD8AAAAAD////n4AeB/AgAAAAAAAAAAAPAAAAAH////3gAcAfAgAAAAAAAAAAADAAAAAD////6AAcAfggAAAAAAAAAAABDwAAAD////8wAMATAIAAAAAAAAAAAAr/AAAB/////gAKASAAAAAAAAAAAAAAH/gAAA/////gACAAAIAAAAAAAAAAAAH/8AAAaH///AAAAsGAAAAAAAAAAAAAH/+AAAAB//+AAAAUOAAAAAAAAAAAAAP/+AAAAB//8AAAAYegAAAAAAAAAAAAP//gAAAD//4AAAAMeBgAAAAAAAAAAAP//8AAAB//wAAAAGdiuAAAAAAAAAAAf///AAAA//wAAAACAQHgAAAAAAAAAAP///gAAA//wAAAABwAHwgAAAAAAAAAH///AAAA//wAAAAACIDQIAAAAAAAAAH//+AAAAf/wAAAAAAAAAAAAAAAAAAAD//+AAAA//wgAAAAABxAAAAAAAAAAAD//+AAAA//wgAAAAAPxgBAAAAAAAAAA//8AAAA//jgAAAAAf5gAAAAAAAAAAAf/8AAAA//DgAAAAAf/gAAAAAAAAAAAf/8AAAAf/DAAAAAD//4CAAAAAAAAAAf/wAAAAf/DAAAAAH//4AAAAAAAAAAAf/AAAAAf+CAAAAAH//8AAAAAAAAAAAf/AAAAAP8AAAAAAH//+AAAAAAAAAAA/+AAAAAP8AAAAAAH//+AAAAAAAAAAA/+AAAAAH4AAAAAAD//+AAAAAAAAAAA/8AAAAAHwAAAAAADwf8AAAAAAAAAAA/gAAAAAAAAAAAAACAH4AIAAAAAAAAB/wAAAAAAAAAAAAAAAD4AEAAAAAAAAB+AAAAAAAAAAAAAAAAAAAGAAAAAAAAB6AAAAAAAAAAAAAAAAAwAMAAAAAAAAA8AAAAAAAAAAAAAAAAAQAYAAAAAAAAB4AAAAAAAAAAAAAAAAAAAwAAAAAAAAB4AAAAAAAAAAAAAAAAAAAAAAAAAAAADwAAAAAAAAAACAAAAAAAAAAAAAAAAADgAAAAAAAAAAAAAAAAAAAAAAAAAAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMAAAAAAAAAeAAIP+f/gAAAAAAAAAAAMAAAAAAABP/+H//////AAAAAAAAAAA+AAAAAf////8////////AAAAAAAOEAPAAAB///////////////gAAAP//T//8AAAH//////////////+AAAH/////4AAAH///////////////8AAE//////4ABw////////////////8AAAD//////gCA////////////////wAAAf/////////////////////////+AAH/AAAAAAAAAAAAAAAAAAAAAAAAAAA";
   var LANDBITS = null;
@@ -935,13 +985,14 @@ html[dir="rtl"] .float-wa{right:auto;left:calc(18px + env(safe-area-inset-left,0
       heroDeck: "We write and place your press releases, articles and interviews in local and international media, in any country. One contact, one quote, and the link to every article.",
       ctaWhatsapp: "Chat on WhatsApp", ctaTelegram: "Message us on Telegram",
       heroNote: "Tell us which countries you target, and we reply with a shortlist of media, their prices and their timelines.",
-      factMarkets: "strong markets", factFormats: "publishing formats", factContact: "contact for everything",
+      factMarkets: "countries", factFormats: "publishing formats", factContact: "contact for everything",
       c1t: "Your news", c1d: "Release, article or interview",
       c2t: "Local media", c2d: "In every country you target",
       c3t: "Live links", c3d: "Sent to you for each article",
       coverageKicker: "Coverage", coverageTitle: "Published in any country",
-      covLead: "We place articles worldwide. These are our strongest markets, shown with their local time.",
-      moreTitle: "Africa and the rest of the world", moreNote: "On request",
+      covLead: "We place articles in all these countries, and in others on request. Each one is shown with its local time.",
+      rgLabel: "Filter by region", rgAll: "All", rgEU: "Europe", rgAF: "Africa", rgME: "Middle East, Caucasus and Central Asia", rgAS: "Asia", rgAM: "Americas",
+      moreTitle: "And many more on request", moreCta: "Ask about a country",
       covNote: "Another country in mind? Send it to us, and we confirm the available media and their prices before you commit.",
       servicesKicker: "Services", servicesTitle: "What we publish",
       servicesLead: "Four formats, written for each market and placed with local publishers.",
@@ -952,7 +1003,7 @@ html[dir="rtl"] .float-wa{right:auto;left:calc(18px + env(safe-area-inset-left,0
       sv4t: "Writing and translation", sv4d: "No text yet? We write it, then adapt it to each country and each language.",
       whyKicker: "Why Frontier Press", whyTitle: "Made for companies entering new markets",
       whyLead: "Local press builds trust in a new country. We make it simple to appear there.",
-      wy1t: "One contact for every country", wy1d: "You brief one person and get one quote, whether you target London, Algiers or Ulaanbaatar.",
+      wy1t: "One contact for every country", wy1d: "You brief one person and get one quote, whether you target London, Lagos or São Paulo.",
       wy2t: "Written in the local language", wy2d: "We write or translate your text for each market, so it reads like local news.",
       wy3t: "A clear quote first", wy3d: "The price and timeline of each outlet, before you commit to anything.",
       wy4t: "A live link for every article", wy4d: "Every published article comes with its link, ready to share.",
@@ -989,8 +1040,7 @@ html[dir="rtl"] .float-wa{right:auto;left:calc(18px + env(safe-area-inset-left,0
       fhServices: "Services", fhSectors: "Sectors", fhContact: "Contact", backTop: "Back to top",
       waClient: "Hello Frontier Press, I would like to publish an article in these countries: ",
       waPartner: "Hello Frontier Press, I would like to become a partner. Could you send me the partner price list?",
-      fmt: ["Press releases", "Articles", "Interviews", "Writing & translation"],
-      cities: ["London", "Paris", "Madrid", "Rome", "Berlin", "Algiers", "Ulaanbaatar"]
+      fmt: ["Press releases", "Articles", "Interviews", "Writing & translation"]
     },
     fr: {
       skip: "Aller au contenu", navLabel: "Navigation principale", footNavLabel: "Navigation de bas de page", langLabel: "Langue",
@@ -1002,13 +1052,14 @@ html[dir="rtl"] .float-wa{right:auto;left:calc(18px + env(safe-area-inset-left,0
       heroDeck: "Nous rédigeons et plaçons vos communiqués, articles et interviews dans les médias locaux et internationaux, dans n’importe quel pays. Un seul contact, un seul devis, et le lien de chaque article.",
       ctaWhatsapp: "Écrire sur WhatsApp", ctaTelegram: "Écrire sur Telegram",
       heroNote: "Dites-nous quels pays vous visez, et nous vous répondons avec une sélection de médias, leurs prix et leurs délais.",
-      factMarkets: "marchés forts", factFormats: "formats de publication", factContact: "seul contact pour tout",
+      factMarkets: "pays", factFormats: "formats de publication", factContact: "seul contact pour tout",
       c1t: "Votre actualité", c1d: "Communiqué, article ou interview",
       c2t: "Médias locaux", c2d: "Dans chaque pays visé",
       c3t: "Liens en ligne", c3d: "Envoyés pour chaque article",
       coverageKicker: "Couverture", coverageTitle: "Publié dans n’importe quel pays",
-      covLead: "Nous publions dans le monde entier. Voici nos marchés les plus forts, avec leur heure locale.",
-      moreTitle: "L’Afrique et le reste du monde", moreNote: "Sur demande",
+      covLead: "Nous publions dans tous ces pays, et dans d’autres sur demande. Chacun est affiché avec son heure locale.",
+      rgLabel: "Filtrer par région", rgAll: "Tous", rgEU: "Europe", rgAF: "Afrique", rgME: "Moyen-Orient, Caucase et Asie centrale", rgAS: "Asie", rgAM: "Amériques",
+      moreTitle: "Et bien d’autres sur demande", moreCta: "Demander pour un pays",
       covNote: "Un autre pays en tête ? Envoyez-le-nous, et nous vous confirmons les médias disponibles et leurs prix avant tout engagement.",
       servicesKicker: "Services", servicesTitle: "Ce que nous publions",
       servicesLead: "Quatre formats, rédigés pour chaque marché et publiés dans des médias locaux.",
@@ -1019,7 +1070,7 @@ html[dir="rtl"] .float-wa{right:auto;left:calc(18px + env(safe-area-inset-left,0
       sv4t: "Rédaction et traduction", sv4d: "Pas encore de texte ? Nous l’écrivons, puis nous l’adaptons à chaque pays et à chaque langue.",
       whyKicker: "Pourquoi Frontier Press", whyTitle: "Pensé pour les entreprises qui arrivent sur de nouveaux marchés",
       whyLead: "La presse locale crée la confiance dans un nouveau pays. Nous vous aidons à y paraître, simplement.",
-      wy1t: "Un seul contact pour tous les pays", wy1d: "Un interlocuteur et un devis, que vous visiez Londres, Alger ou Oulan-Bator.",
+      wy1t: "Un seul contact pour tous les pays", wy1d: "Un interlocuteur et un devis, que vous visiez Londres, Lagos ou São Paulo.",
       wy2t: "Rédigé dans la langue locale", wy2d: "Nous rédigeons ou traduisons votre texte pour chaque marché, pour qu’il se lise comme une actualité locale.",
       wy3t: "D’abord un devis clair", wy3d: "Le prix et le délai de chaque média, avant tout engagement.",
       wy4t: "Un lien pour chaque article", wy4d: "Chaque article publié vous arrive avec son lien, prêt à être partagé.",
@@ -1056,8 +1107,7 @@ html[dir="rtl"] .float-wa{right:auto;left:calc(18px + env(safe-area-inset-left,0
       fhServices: "Services", fhSectors: "Secteurs", fhContact: "Contact", backTop: "Haut de page",
       waClient: "Bonjour Frontier Press, je voudrais publier un article dans ces pays : ",
       waPartner: "Bonjour Frontier Press, je voudrais devenir partenaire. Pouvez-vous m’envoyer la grille partenaire ?",
-      fmt: ["Communiqués de presse", "Articles", "Interviews", "Rédaction et traduction"],
-      cities: ["Londres", "Paris", "Madrid", "Rome", "Berlin", "Alger", "Oulan-Bator"]
+      fmt: ["Communiqués de presse", "Articles", "Interviews", "Rédaction et traduction"]
     },
     ar: {
       skip: "انتقل إلى المحتوى", navLabel: "القائمة الرئيسية", footNavLabel: "روابط أسفل الصفحة", langLabel: "اللغة",
@@ -1069,13 +1119,14 @@ html[dir="rtl"] .float-wa{right:auto;left:calc(18px + env(safe-area-inset-left,0
       heroDeck: "نكتب بياناتكم الصحفية ومقالاتكم ومقابلاتكم، وننشرها في وسائل الإعلام المحلية والدولية، في أي بلد. جهة اتصال واحدة، وعرض سعر واحد، ورابط كل مقال منشور.",
       ctaWhatsapp: "راسلونا على واتساب", ctaTelegram: "راسلونا على تيليغرام",
       heroNote: "أخبرونا بالبلدان التي تستهدفونها، وسنرسل إليكم قائمة مختارة من وسائل الإعلام مع أسعارها ومواعيد نشرها.",
-      factMarkets: "أسواق قوية", factFormats: "صيغ للنشر", factContact: "جهة اتصال لكل شيء",
+      factMarkets: "بلداً", factFormats: "صيغ للنشر", factContact: "جهة اتصال لكل شيء",
       c1t: "خبركم", c1d: "بيان أو مقال أو مقابلة",
       c2t: "وسائل إعلام محلية", c2d: "في كل بلد تستهدفونه",
       c3t: "روابط منشورة", c3d: "نرسلها لكم لكل مقال",
       coverageKicker: "التغطية", coverageTitle: "النشر في أي بلد",
-      covLead: "ننشر في جميع أنحاء العالم. هذه أقوى أسواقنا، مع توقيتها المحلي.",
-      moreTitle: "إفريقيا وباقي العالم", moreNote: "عند الطلب",
+      covLead: "ننشر في كل هذه البلدان، وفي غيرها عند الطلب. يظهر كل بلد بتوقيته المحلي.",
+      rgLabel: "التصفية حسب المنطقة", rgAll: "الكل", rgEU: "أوروبا", rgAF: "إفريقيا", rgME: "الشرق الأوسط والقوقاز وآسيا الوسطى", rgAS: "آسيا", rgAM: "الأمريكتان",
+      moreTitle: "وبلدان أخرى كثيرة عند الطلب", moreCta: "اسألونا عن بلد",
       covNote: "تفكرون في بلد آخر؟ أرسلوه إلينا، وسنؤكد لكم وسائل الإعلام المتاحة وأسعارها قبل أي التزام.",
       servicesKicker: "الخدمات", servicesTitle: "ما الذي ننشره",
       servicesLead: "أربع صيغ، تُكتب لكل سوق وتُنشر في وسائل إعلام محلية.",
@@ -1086,7 +1137,7 @@ html[dir="rtl"] .float-wa{right:auto;left:calc(18px + env(safe-area-inset-left,0
       sv4t: "الكتابة والترجمة", sv4d: "ليس لديكم نص بعد؟ نكتبه لكم، ثم نكيّفه مع كل بلد وكل لغة.",
       whyKicker: "لماذا Frontier Press", whyTitle: "مصمَّم للشركات التي تدخل أسواقاً جديدة",
       whyLead: "الصحافة المحلية تبني الثقة في كل بلد جديد، ونحن نسهّل عليكم الظهور فيها.",
-      wy1t: "جهة اتصال واحدة لكل البلدان", wy1d: "شخص واحد وعرض سعر واحد، سواء استهدفتم لندن أو الجزائر أو أولان باتور.",
+      wy1t: "جهة اتصال واحدة لكل البلدان", wy1d: "شخص واحد وعرض سعر واحد، سواء استهدفتم لندن أو لاغوس أو ساو باولو.",
       wy2t: "مكتوب باللغة المحلية", wy2d: "نكتب نصكم أو نترجمه لكل سوق، ليُقرأ كخبر محلي.",
       wy3t: "عرض سعر واضح أولاً", wy3d: "سعر كل وسيلة إعلامية ومدة نشرها، قبل أي التزام.",
       wy4t: "رابط لكل مقال", wy4d: "نرسل إليكم رابط كل مقال بعد نشره، جاهزاً للمشاركة.",
@@ -1123,8 +1174,7 @@ html[dir="rtl"] .float-wa{right:auto;left:calc(18px + env(safe-area-inset-left,0
       fhServices: "الخدمات", fhSectors: "القطاعات", fhContact: "تواصل", backTop: "العودة إلى الأعلى",
       waClient: "مرحباً Frontier Press، أودّ نشر مقال في هذه البلدان: ",
       waPartner: "مرحباً Frontier Press، أودّ أن أصبح شريكاً لكم. هل يمكنكم إرسال أسعار الشركاء؟",
-      fmt: ["بيانات صحفية", "مقالات", "مقابلات", "كتابة وترجمة"],
-      cities: ["لندن", "باريس", "مدريد", "روما", "برلين", "الجزائر", "أولان باتور"]
+      fmt: ["بيانات صحفية", "مقالات", "مقابلات", "كتابة وترجمة"]
     }
   };
 
@@ -1215,9 +1265,41 @@ html[dir="rtl"] .float-wa{right:auto;left:calc(18px + env(safe-area-inset-left,0
     }
     if (b) {
       g = "";
-      for (r = 0; r < 2; r++) for (i = 0; i < t.cities.length; i++) g += "<span class=\"mq-item city\"><b>" + esc(t.cities[i]) + "</b><span class=\"mq-time\" dir=\"ltr\" data-tz=\"" + TZS[i] + "\"></span></span>";
+      for (i = 0; i < COUNTRIES.length; i++) g += "<span class=\"mq-item city\"><b>" + esc(cityName(i)) + "</b><span class=\"mq-time\" dir=\"ltr\" data-tz=\"" + COUNTRIES[i].tz + "\"></span></span>";
       b.innerHTML = "<div class=\"mq-group\">" + g + "</div><div class=\"mq-group\">" + g + "</div>";
+      /* keep the ticker at about 50 px per second whatever its length */
+      var gw = b.firstChild ? b.firstChild.getBoundingClientRect().width : 0;
+      if (gw > 0) b.style.animationDuration = Math.round(gw / 50) + "s";
     }
+  }
+
+  /* Coverage board: one clock tile per country, plus region filter chips */
+  function buildBoard() {
+    var board = document.getElementById("board"), filter = document.getElementById("rfilter"), html = "", i;
+    if (!board) return;
+    for (i = 0; i < COUNTRIES.length; i++) {
+      var k = COUNTRIES[i];
+      html += "<li class=\"tile spot reveal\" style=\"--d:" + ((i % 6) * 0.04).toFixed(2) + "s\" data-code=\"" + k.c + "\" data-tz=\"" + k.tz + "\" data-city=\"" + i + "\" data-r=\"" + k.r + "\">" +
+        "<div class=\"tile-top\"><span class=\"code\" aria-hidden=\"true\" lang=\"en\" dir=\"ltr\">" + k.c + "</span><span class=\"dial\" aria-hidden=\"true\"></span></div>" +
+        "<span class=\"country\" data-fallback=\"" + esc(k.fb) + "\">" + esc(k.fb) + "</span>" +
+        "<span class=\"clock\"><i class=\"live-dot\" aria-hidden=\"true\"></i><span class=\"city\">" + esc(k.en) + "</span><span class=\"time\" dir=\"ltr\">--:--</span></span></li>";
+    }
+    board.innerHTML = html;
+    if (!filter) return;
+    var counts = {}, f = "";
+    for (i = 0; i < COUNTRIES.length; i++) counts[COUNTRIES[i].r] = (counts[COUNTRIES[i].r] || 0) + 1;
+    f += "<button type=\"button\" class=\"rchip\" data-r=\"all\" aria-pressed=\"true\"><span data-i18n=\"rgAll\">All</span><b>" + COUNTRIES.length + "</b></button>";
+    for (i = 0; i < REGIONS.length; i++) {
+      f += "<button type=\"button\" class=\"rchip\" data-r=\"" + REGIONS[i][0] + "\" aria-pressed=\"false\"><i class=\"rdot\" aria-hidden=\"true\"></i><span data-i18n=\"" + REGIONS[i][1] + "\"></span><b>" + (counts[REGIONS[i][0]] || 0) + "</b></button>";
+    }
+    filter.innerHTML = f;
+    filter.addEventListener("click", function (e) {
+      var btn = e.target && e.target.closest ? e.target.closest(".rchip") : null;
+      if (!btn) return;
+      var r = btn.getAttribute("data-r"), chips = filter.querySelectorAll(".rchip"), tiles = board.querySelectorAll(".tile");
+      for (var j = 0; j < chips.length; j++) chips[j].setAttribute("aria-pressed", String(chips[j] === btn));
+      for (var m = 0; m < tiles.length; m++) tiles[m].hidden = !(r === "all" || tiles[m].getAttribute("data-r") === r);
+    });
   }
 
   /* Rotating headline; the globe turns to each city as it appears */
@@ -1225,7 +1307,10 @@ html[dir="rtl"] .float-wa{right:auto;left:calc(18px + env(safe-area-inset-left,0
   function buildRot(t) {
     if (!rotEl) return;
     var items = [t.rotAny], html = "", i;
-    for (i = 0; i < t.cities.length; i++) items.push(t.rotPre + t.cities[i] + t.rotEnd);
+    for (i = 0; i < ROT.length; i++) {
+      var k = COUNTRIES[codeIdx(ROT[i])];
+      items.push((current === "fr" && k.frIn ? k.frIn : t.rotPre + cityName(codeIdx(ROT[i]))) + t.rotEnd);
+    }
     for (i = 0; i < items.length; i++) html += "<span class=\"rot-item" + (i === 0 ? " is-on" : "") + "\"><span class=\"rot-w\">" + esc(items[i]) + "</span></span>";
     rotEl.innerHTML = html;
     rotIdx = 0;
@@ -1250,7 +1335,7 @@ html[dir="rtl"] .float-wa{right:auto;left:calc(18px + env(safe-area-inset-left,0
     next.classList.remove("is-out");
     next.classList.add("is-on");
     setTimeout(function () { prev.classList.remove("is-out"); }, 800);
-    if (globe) globe.focus(rotIdx - 1);
+    if (globe) globe.focus(rotIdx === 0 ? -1 : codeIdx(ROT[rotIdx - 1]));
     scheduleRot(rotIdx === 0 ? 3400 : 2400);
   }
 
@@ -1284,7 +1369,7 @@ html[dir="rtl"] .float-wa{right:auto;left:calc(18px + env(safe-area-inset-left,0
       var c = tiles[i].querySelector(".country");
       if (c) c.textContent = regionName(tiles[i].getAttribute("data-code")) || c.getAttribute("data-fallback");
       var ci = parseInt(tiles[i].getAttribute("data-city"), 10), cityEl = tiles[i].querySelector(".city");
-      if (cityEl && t.cities[ci]) cityEl.textContent = t.cities[ci];
+      if (cityEl && COUNTRIES[ci]) cityEl.textContent = cityName(ci);
     }
     var dl = document.getElementById("dateline");
     if (dl) {
@@ -1389,11 +1474,11 @@ html[dir="rtl"] .float-wa{right:auto;left:calc(18px + env(safe-area-inset-left,0
         }
       }
     }
-    var MK = CITY_LL.map(function (m) {
-      var la = m[0] * D2R, lo = m[1] * D2R;
+    var MK = COUNTRIES.map(function (k) {
+      var la = k.ll[0] * D2R, lo = k.ll[1] * D2R;
       return [Math.cos(la) * Math.sin(lo), Math.sin(la), Math.cos(la) * Math.cos(lo)];
     });
-    var LON = CITY_LL.map(function (m) { return m[1] * D2R; });
+    var LON = COUNTRIES.map(function (k) { return k.ll[1] * D2R; });
     var TILT = 0.42, cT = Math.cos(TILT), sT = Math.sin(TILT);
     var W = 0, H = 0, R = 0, CX = 0, CY = 0, rot = -18 * D2R, cR = 1, sR = 0;
     var out = [0, 0, 0];
@@ -1502,7 +1587,7 @@ html[dir="rtl"] .float-wa{right:auto;left:calc(18px + env(safe-area-inset-left,0
       var x = q[0], y = q[1];
       var a = Math.min(1, (t - focusT0) / 400) * Math.min(1, (q[2] - 0.2) / 0.3);
       if (a <= 0) return;
-      var ar = current === "ar", name = I18N[current].cities[focusIdx] || "";
+      var ar = current === "ar", name = cityName(focusIdx);
       var label = ar ? name : name.toUpperCase();
       ctx.save();
       ctx.globalAlpha = a;
@@ -1533,13 +1618,13 @@ html[dir="rtl"] .float-wa{right:auto;left:calc(18px + env(safe-area-inset-left,0
     setRot();
     var t0 = now();
     if (reduceMotion) {
-      [[0, 5], [1, 3], [4, 2]].forEach(function (pr) { arcs.push({ pts: slerp(MK[pr[0]], MK[pr[1]]), t0: 0, fixed: true }); });
+      [["GB", "NG"], ["FR", "US"], ["DE", "KZ"]].forEach(function (pr) { arcs.push({ pts: slerp(MK[codeIdx(pr[0])], MK[codeIdx(pr[1])]), t0: 0, fixed: true }); });
       frame(t0);
       if ("ResizeObserver" in window) new ResizeObserver(function () { resize(); frame(0); }).observe(canvas);
       return { focus: function () {} };
     }
-    arcs.push({ pts: slerp(MK[0], MK[5]), t0: t0 - 1100 });
-    arcs.push({ pts: slerp(MK[1], MK[3]), t0: t0 - 500 });
+    arcs.push({ pts: slerp(MK[codeIdx("GB")], MK[codeIdx("NG")]), t0: t0 - 1100 });
+    arcs.push({ pts: slerp(MK[codeIdx("FR")], MK[codeIdx("EG")]), t0: t0 - 500 });
     frame(t0);
     var running = false, visible = true, last = 0, dragX = null, spin = 0.00011;
     function loop(t) {
@@ -1548,7 +1633,9 @@ html[dir="rtl"] .float-wa{right:auto;left:calc(18px + env(safe-area-inset-left,0
       last = t;
       if (dragX === null) {
         if (focusIdx >= 0) {
-          var d = (-LON[focusIdx] + 0.12) - rot;
+          /* park the city slightly off-centre, away from the floating card on the side */
+          var off = (W < 480 ? 0.3 : 0.14) * (document.documentElement.getAttribute("dir") === "rtl" ? 1 : -1);
+          var d = (-LON[focusIdx] + off) - rot;
           d = Math.atan2(Math.sin(d), Math.cos(d));
           rot += d * Math.min(1, dt * 0.0032);
         } else {
@@ -1595,7 +1682,7 @@ html[dir="rtl"] .float-wa{right:auto;left:calc(18px + env(safe-area-inset-left,0
     if (!cv || !cv.getContext || !LANDBITS) return;
     var cx = cv.getContext("2d");
     if (!cx) return;
-    var LON0 = -24, LON1 = 140, W = 0, H = 0, sc = 1, latTop = 70, dots = [], arcs = [], lastSpawn = 0, running = false, visible = false;
+    var LON0 = -100, LON1 = 125, W = 0, H = 0, sc = 1, latTop = 70, dots = [], arcs = [], lastSpawn = 0, running = false, visible = false;
     function X(lon) { return (lon - LON0) * sc; }
     function Y(lat) { return (latTop - lat) * sc; }
     function layout() {
@@ -1604,10 +1691,12 @@ html[dir="rtl"] .float-wa{right:auto;left:calc(18px + env(safe-area-inset-left,0
       if (W < 2 || H < 2) return;
       cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
       cx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      sc = W / (LON1 - LON0);
-      var span = H / sc;
-      latTop = Math.min(80, 44 + span * 0.55);
-      var latBot = latTop - span;
+      /* fit New York to Ulaanbaatar and Warsaw to Buenos Aires, centred on the markets */
+      sc = Math.min(W / 230, H / 110);
+      LON0 = 12.5 - W / sc / 2;
+      LON1 = LON0 + W / sc;
+      latTop = 10 + H / sc / 2;
+      var latBot = latTop - H / sc;
       dots = [];
       for (var r = 0; r < 86; r++) {
         var lat = 85 - 2 * r;
@@ -1621,7 +1710,7 @@ html[dir="rtl"] .float-wa{right:auto;left:calc(18px + env(safe-area-inset-left,0
       }
     }
     function curve(a, b) {
-      var x0 = X(CITY_LL[a][1]), y0 = Y(CITY_LL[a][0]), x1 = X(CITY_LL[b][1]), y1 = Y(CITY_LL[b][0]);
+      var x0 = X(COUNTRIES[a].ll[1]), y0 = Y(COUNTRIES[a].ll[0]), x1 = X(COUNTRIES[b].ll[1]), y1 = Y(COUNTRIES[b].ll[0]);
       var d = Math.sqrt((x1 - x0) * (x1 - x0) + (y1 - y0) * (y1 - y0));
       var qx = (x0 + x1) / 2, qy = Math.max(28 - (y0 + y1) / 2, (y0 + y1) / 2 - Math.max(16, d * 0.36)), p = [];
       for (var i = 0; i <= 32; i++) {
@@ -1660,21 +1749,28 @@ html[dir="rtl"] .float-wa{right:auto;left:calc(18px + env(safe-area-inset-left,0
       for (var i = 0; i < dots.length; i += 2) { cx.moveTo(dots[i] + rad, dots[i + 1]); cx.arc(dots[i], dots[i + 1], rad, 0, 6.2832); }
       cx.fill();
       for (var k = arcs.length - 1; k >= 0; k--) { if (!drawArc(arcs[k], t)) arcs.splice(k, 1); }
-      for (var m = 0; m < CITY_LL.length; m++) {
-        var x = X(CITY_LL[m][1]), y = Y(CITY_LL[m][0]), ph = running ? ((t / 1800) + m * 0.21) % 1 : 0.35;
-        cx.strokeStyle = "rgba(255,106,61," + (0.6 * (1 - ph)).toFixed(3) + ")"; cx.lineWidth = 1.5;
-        cx.beginPath(); cx.arc(x, y, 3 + ph * 13, 0, 6.2832); cx.stroke();
-        cx.fillStyle = "#FFFFFF"; cx.beginPath(); cx.arc(x, y, 5, 0, 6.2832); cx.fill();
-        cx.fillStyle = "#FF6A3D"; cx.beginPath(); cx.arc(x, y, 3.2, 0, 6.2832); cx.fill();
+      for (var m = 0; m < COUNTRIES.length; m++) {
+        var x = X(COUNTRIES[m].ll[1]), y = Y(COUNTRIES[m].ll[0]), ph = running ? ((t / 1800) + m * 0.13) % 1 : 0.35;
+        cx.strokeStyle = "rgba(255,106,61," + (0.55 * (1 - ph)).toFixed(3) + ")"; cx.lineWidth = 1.4;
+        cx.beginPath(); cx.arc(x, y, 3 + ph * 11, 0, 6.2832); cx.stroke();
+        cx.fillStyle = "#FFFFFF"; cx.beginPath(); cx.arc(x, y, 4.2, 0, 6.2832); cx.fill();
+        cx.fillStyle = "#FF6A3D"; cx.beginPath(); cx.arc(x, y, 2.7, 0, 6.2832); cx.fill();
       }
     }
     function spawn(t) {
-      var a = Math.floor(Math.random() * CITY_LL.length);
-      var b = Math.random() < 0.6 ? 5 + Math.floor(Math.random() * 2) : Math.floor(Math.random() * CITY_LL.length);
-      if (a === b) b = (a + 3) % CITY_LL.length;
+      var n = COUNTRIES.length, a = Math.floor(Math.random() * n), b = a;
+      for (var tries = 0; tries < 8; tries++) {
+        b = Math.floor(Math.random() * n);
+        var p = COUNTRIES[a].ll, q = COUNTRIES[b].ll;
+        if (b !== a && Math.abs(p[0] - q[0]) + Math.abs(p[1] - q[1]) > 25) break;
+      }
+      if (b === a) b = (a + 7) % n;
       arcs.push({ a: a, b: b, t0: t });
     }
-    function still() { arcs = [{ a: 0, b: 6, fixed: true }, { a: 1, b: 5, fixed: true }, { a: 4, b: 6, fixed: true }]; draw(0); }
+    function still() {
+      arcs = [["GB", "US"], ["FR", "NG"], ["DE", "KZ"], ["ES", "BR"]].map(function (pr) { return { a: codeIdx(pr[0]), b: codeIdx(pr[1]), fixed: true }; });
+      draw(0);
+    }
     function loop(t) {
       if (!running) return;
       if (t - lastSpawn > 1050 && arcs.length < 4) { spawn(t); lastSpawn = t; }
@@ -1762,6 +1858,7 @@ html[dir="rtl"] .float-wa{right:auto;left:calc(18px + env(safe-area-inset-left,0
     });
   }
 
+  buildBoard();
   buildDials();
   globe = initGlobe();
   apply(pickLang());
@@ -1846,7 +1943,7 @@ html[dir="rtl"] .float-wa{right:auto;left:calc(18px + env(safe-area-inset-left,0
       flipped = true;
       bo.disconnect();
       var codes = board.querySelectorAll(".tile[data-code] .code");
-      for (var i = 0; i < codes.length; i++) flip(codes[i], 250 + i * 90);
+      for (var i = 0; i < codes.length; i++) flip(codes[i], 200 + i * 35);
     }, { threshold: 0.25 });
     bo.observe(board);
   }
